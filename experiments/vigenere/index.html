@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vigenère Cipher Simulator with Cryptanalysis — Virtual Lab experiment for TE Computer Engineering CSS TH ISE. Encrypt, decrypt, and observe frequency analysis.">
+    <title>Vigenère Cipher Simulator with Cryptanalysis — Virtual Lab</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Mobile Menu Button -->
+<button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<div class="lab-wrapper">
+
+    <!-- ────────────── SIDEBAR ────────────── -->
+    <aside class="lab-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1>Vigenère Cipher Simulator with Cryptanalysis</h1>
+            <div class="lab-subtitle">Virtual Lab — Group 1</div>
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-link active" data-section="section-intro" href="#">
+                <span class="nav-icon">📖</span> Introduction &amp; Aim
+            </a>
+            <a class="nav-link" data-section="section-objectives" href="#">
+                <span class="nav-icon">🎯</span> Objectives
+            </a>
+            <a class="nav-link" data-section="section-theory" href="#">
+                <span class="nav-icon">📐</span> Theory
+            </a>
+            <a class="nav-link" data-section="section-how" href="#">
+                <span class="nav-icon">⚙️</span> How It Works
+            </a>
+            <a class="nav-link" data-section="section-encrypt" href="#">
+                <span class="nav-icon">🔒</span> Encryption
+            </a>
+            <a class="nav-link" data-section="section-decrypt" href="#">
+                <span class="nav-icon">🔓</span> Decryption
+            </a>
+            <a class="nav-link" data-section="section-simulation" href="#">
+                <span class="nav-icon">▶️</span> Step-by-Step Simulation
+            </a>
+            <a class="nav-link" data-section="section-cryptanalysis" href="#">
+                <span class="nav-icon">📊</span> Cryptanalysis
+            </a>
+            <a class="nav-link" data-section="section-procedure" href="#">
+                <span class="nav-icon">📋</span> Procedure
+            </a>
+            <a class="nav-link" data-section="section-examples" href="#">
+                <span class="nav-icon">💡</span> Examples
+            </a>
+            <a class="nav-link" data-section="section-quiz" href="#">
+                <span class="nav-icon">✏️</span> Quiz / Assessment
+            </a>
+            <a class="nav-link" data-section="section-tests" href="#">
+                <span class="nav-icon">🧪</span> Test Results
+            </a>
+            <a class="nav-link" data-section="section-references" href="#">
+                <span class="nav-icon">📚</span> References
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            TE Comp B — CSS TH ISE<br>
+            © 2026 Group 1
+        </div>
+    </aside>
+
+    <!-- ────────────── MAIN ────────────── -->
+    <main class="lab-main">
+        <header class="lab-header">
+            <h2>Vigenère Cipher Simulator with Cryptanalysis</h2>
+            <span class="header-badge">Experiment</span>
+        </header>
+
+        <div class="lab-content">
+
+            <!-- ============ 1. INTRODUCTION / AIM ============ -->
+            <section class="lab-section active" id="section-intro">
+                <h2 class="section-title"><span class="section-icon">📖</span> Introduction &amp; Aim</h2>
+
+                <div class="card card-accent">
+                    <h3>Aim</h3>
+                    <p>To implement the Vigenère cipher for encryption and decryption, and to observe, through frequency analysis, how a polyalphabetic substitution resists the attacks that easily break a simple monoalphabetic cipher.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Introduction</h3>
+                    <p>
+                        The <strong>Vigenère cipher</strong> is a method of encrypting alphabetic text using a simple form of <em>polyalphabetic substitution</em>. Unlike a monoalphabetic cipher such as Caesar — which applies a single, fixed shift to every letter — the Vigenère cipher uses a <strong>keyword</strong> to select a different shift for each position in the plaintext.
+                    </p>
+                    <p>
+                        The technique was first described by <strong>Giovan Battista Bellaso</strong> in 1553, but was later misattributed to <strong>Blaise de Vigenère</strong>, whose name became permanently associated with it. For roughly three centuries the cipher was regarded as unbreakable, earning the French epithet <em title="the indecipherable cipher">"le chiffre indéchiffrable"</em>.
+                    </p>
+                    <p>
+                        In 1863, <strong>Friedrich Kasiski</strong> published a general method for breaking the Vigenère cipher by exploiting the periodic repetition of the keyword. Today, the cipher is understood to be insecure for serious use, but it remains an excellent pedagogical tool for understanding the principles of polyalphabetic substitution, modular arithmetic in cryptography, and the fundamentals of cryptanalysis.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Experiment Details</h3>
+                    <table class="step-table" style="max-width:480px;">
+                        <tr><td style="font-weight:600;">Course</td><td>CSS TH ISE — Virtual Lab Development</td></tr>
+                        <tr><td style="font-weight:600;">Class</td><td>TE Computer Engineering — Comp B</td></tr>
+                        <tr><td style="font-weight:600;">Group</td><td>Group 1</td></tr>
+                        <tr><td style="font-weight:600;">Members</td>
+                            <td>
+                                10642 Alphonso Doris<br>
+                                10643 Arora Harman Singh<br>
+                                10644 Bothello Ashley<br>
+                                10645 Burken Binoy Aurthur<br>
+                                10646 Cardoza Shaina James
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ============ 2. OBJECTIVES ============ -->
+            <section class="lab-section" id="section-objectives">
+                <h2 class="section-title"><span class="section-icon">🎯</span> Objectives</h2>
+                <div class="card">
+                    <p>After completing this experiment, students should be able to:</p>
+                    <ol>
+                        <li>Explain what a polyalphabetic substitution cipher is and how it differs from a monoalphabetic cipher such as Caesar.</li>
+                        <li>Encrypt a message using a keyword and the Vigenère square (tabula recta).</li>
+                        <li>Decrypt a Vigenère-encrypted message when the keyword is known.</li>
+                        <li>Express Vigenère encryption and decryption mathematically using modular arithmetic (mod 26).</li>
+                        <li>Compare plaintext and ciphertext letter-frequency distributions.</li>
+                        <li>Explain why single-letter frequency analysis is less effective against the Vigenère cipher and how key length affects resistance.</li>
+                        <li>State the limitations of the Vigenère cipher and understand the ideas behind <em>Kasiski examination</em> and the <em>index of coincidence</em>.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- ============ 3. THEORY ============ -->
+            <section class="lab-section" id="section-theory">
+                <h2 class="section-title"><span class="section-icon">📐</span> Theory</h2>
+
+                <div class="card">
+                    <h3>Key Terms</h3>
+                    <table class="step-table" style="max-width:680px;">
+                        <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Plaintext</strong></td><td>The original, readable message before encryption.</td></tr>
+                            <tr><td><strong>Ciphertext</strong></td><td>The scrambled, unreadable output after encryption.</td></tr>
+                            <tr><td><strong>Key / Keyword</strong></td><td>A word or phrase used to control the encryption shifts.</td></tr>
+                            <tr><td><strong>Key Length (m)</strong></td><td>The number of alphabetic characters in the keyword.</td></tr>
+                            <tr><td><strong>Tabula Recta</strong></td><td>A 26×26 grid of shifted alphabets used for lookup-based Vigenère encryption.</td></tr>
+                            <tr><td><strong>Polyalphabetic Cipher</strong></td><td>A cipher that uses multiple substitution alphabets, one per key letter.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Monoalphabetic vs. Polyalphabetic</h3>
+                    <p>
+                        A <strong>monoalphabetic</strong> cipher (e.g., Caesar) uses a single substitution alphabet — every occurrence of a given letter is always replaced by the same ciphertext letter. This makes the cipher vulnerable to <em>frequency analysis</em>: the most common ciphertext letter likely corresponds to the most common plaintext letter (typically 'E' in English).
+                    </p>
+                    <p>
+                        A <strong>polyalphabetic</strong> cipher uses <em>multiple</em> substitution alphabets, cycling through them. In the Vigenère cipher, each letter of the keyword defines a different Caesar shift. The same plaintext letter can therefore be encrypted to <em>different</em> ciphertext letters at different positions, disrupting the simple one-to-one letter mapping that frequency analysis relies on.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Mathematical Formulation</h3>
+                    <p>Assign each letter a numeric value: <strong>A = 0, B = 1, C = 2, …, Z = 25</strong>.</p>
+                    <p>Let:</p>
+                    <ul>
+                        <li><strong>P<sub>i</sub></strong> — numeric value of the <em>i</em>-th plaintext letter</li>
+                        <li><strong>K<sub>i mod m</sub></strong> — numeric value of the corresponding key letter (key repeats with period <em>m</em>)</li>
+                        <li><strong>C<sub>i</sub></strong> — numeric value of the resulting ciphertext letter</li>
+                    </ul>
+                    <h4>Encryption Formula</h4>
+                    <code class="formula">C<sub>i</sub> = ( P<sub>i</sub> + K<sub>i mod m</sub> ) mod 26</code>
+                    <h4>Decryption Formula</h4>
+                    <code class="formula">P<sub>i</sub> = ( C<sub>i</sub> − K<sub>i mod m</sub> + 26 ) mod 26</code>
+                    <p class="muted">The "+26" in the decryption formula ensures the intermediate value is non-negative before the modulo operation.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Important Observations</h3>
+                    <ul>
+                        <li><strong>Key length 1</strong> reduces the Vigenère cipher to a simple Caesar cipher (a single shift applied to every letter).</li>
+                        <li>A <strong>key letter of 'A'</strong> (value 0) means no shift at that position — the plaintext letter passes through unchanged.</li>
+                        <li>A <strong>random key as long as the message and never reused</strong> produces a <em>one-time pad</em>, which is theoretically unbreakable.</li>
+                        <li>In practice, Vigenère keys <strong>repeat</strong>, which creates structural weakness exploitable by Kasiski examination and the index of coincidence.</li>
+                        <li>For a keyword of length <em>m</em>, there are <strong>26<sup>m</sup></strong> possible keys. For <em>m</em> = 5: 26<sup>5</sup> = <strong>11,881,376</strong> possible keys.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Tabula Recta (Vigenère Square)</h3>
+                    <p>The tabula recta is a 26×26 grid where row <em>r</em>, column <em>c</em> contains the letter at position <code>(r + c) mod 26</code>. To encrypt: find the column headed by the plaintext letter and the row headed by the key letter; the intersection is the ciphertext letter.</p>
+                    <div class="tabula-recta-wrapper" id="tabula-recta">
+                        <!-- Built by JavaScript -->
+                    </div>
+                    <p class="muted" style="text-align:center;">Hover on the Step-by-Step Simulation to see the tabula recta highlight in action.</p>
+                </div>
+            </section>
+
+            <!-- ============ 4. HOW IT WORKS ============ -->
+            <section class="lab-section" id="section-how">
+                <h2 class="section-title"><span class="section-icon">⚙️</span> How Vigenère Works</h2>
+
+                <div class="card">
+                    <h3>Working Principle</h3>
+                    <ol>
+                        <li>Assign each letter a numeric value: A = 0, B = 1, …, Z = 25.</li>
+                        <li>Write the keyword beneath the plaintext, repeating it as needed. Non-alphabetic characters in the plaintext are skipped (the key does not advance).</li>
+                        <li><strong>Encryption:</strong> For each alphabetic position, <em>add</em> the plaintext value and the key value, then take mod 26.</li>
+                        <li><strong>Decryption:</strong> For each alphabetic position, <em>subtract</em> the key value from the ciphertext value, add 26, then take mod 26.</li>
+                        <li>Convert the resulting numeric value back to a letter. Preserve the original case of the plaintext/ciphertext character.</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h3>Key Alignment Example</h3>
+                    <p>For plaintext <code>ATTACK AT DAWN</code> and key <code>LEMON</code>:</p>
+                    <div class="key-stream-vis">
+                        <div class="ks-row">
+                            <span class="ks-label">Plaintext:</span>
+                            <span class="ks-char ks-alpha">A</span>
+                            <span class="ks-char ks-alpha">T</span>
+                            <span class="ks-char ks-alpha">T</span>
+                            <span class="ks-char ks-alpha">A</span>
+                            <span class="ks-char ks-alpha">C</span>
+                            <span class="ks-char ks-alpha">K</span>
+                            <span class="ks-char ks-non-alpha">&nbsp;</span>
+                            <span class="ks-char ks-alpha">A</span>
+                            <span class="ks-char ks-alpha">T</span>
+                            <span class="ks-char ks-non-alpha">&nbsp;</span>
+                            <span class="ks-char ks-alpha">D</span>
+                            <span class="ks-char ks-alpha">A</span>
+                            <span class="ks-char ks-alpha">W</span>
+                            <span class="ks-char ks-alpha">N</span>
+                        </div>
+                        <div class="ks-row">
+                            <span class="ks-label">Key:</span>
+                            <span class="ks-char ks-key">L</span>
+                            <span class="ks-char ks-key">E</span>
+                            <span class="ks-char ks-key">M</span>
+                            <span class="ks-char ks-key">O</span>
+                            <span class="ks-char ks-key">N</span>
+                            <span class="ks-char ks-key">L</span>
+                            <span class="ks-char ks-non-alpha">&nbsp;</span>
+                            <span class="ks-char ks-key">E</span>
+                            <span class="ks-char ks-key">M</span>
+                            <span class="ks-char ks-non-alpha">&nbsp;</span>
+                            <span class="ks-char ks-key">O</span>
+                            <span class="ks-char ks-key">N</span>
+                            <span class="ks-char ks-key">L</span>
+                            <span class="ks-char ks-key">E</span>
+                        </div>
+                        <div class="ks-row">
+                            <span class="ks-label">Ciphertext:</span>
+                            <span class="ks-char ks-result">L</span>
+                            <span class="ks-char ks-result">X</span>
+                            <span class="ks-char ks-result">F</span>
+                            <span class="ks-char ks-result">O</span>
+                            <span class="ks-char ks-result">P</span>
+                            <span class="ks-char ks-result">V</span>
+                            <span class="ks-char ks-non-alpha">&nbsp;</span>
+                            <span class="ks-char ks-result">E</span>
+                            <span class="ks-char ks-result">F</span>
+                            <span class="ks-char ks-non-alpha">&nbsp;</span>
+                            <span class="ks-char ks-result">R</span>
+                            <span class="ks-char ks-result">N</span>
+                            <span class="ks-char ks-result">H</span>
+                            <span class="ks-char ks-result">R</span>
+                        </div>
+                    </div>
+                    <div class="callout">
+                        <strong>Note:</strong> The spaces in the plaintext pass through unchanged, and the key does <em>not</em> advance at those positions. The key letter after K (at "ATTACK") continues as E (at "A" in "AT"), not restarting.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Edge Cases &amp; Validation Rules</h3>
+                    <ul>
+                        <li><strong>Empty key</strong> → Rejected with an error message.</li>
+                        <li><strong>Key containing symbols/numbers</strong> → Non-letter characters are removed; if no letters remain, the key is rejected.</li>
+                        <li><strong>Key shorter than plaintext</strong> → Key repeats cyclically.</li>
+                        <li><strong>Key longer than plaintext</strong> → Only the required key characters are consumed.</li>
+                        <li><strong>Single-character key</strong> → Behaves as a Caesar shift.</li>
+                        <li><strong>Non-alphabetic plaintext characters</strong> → Preserved in output; do not advance the key pointer.</li>
+                        <li><strong>Case</strong> → The original upper/lower case of each plaintext letter is preserved in the ciphertext.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ============ 5. ENCRYPTION ============ -->
+            <section class="lab-section" id="section-encrypt">
+                <h2 class="section-title"><span class="section-icon">🔒</span> Interactive Encryption</h2>
+
+                <div class="card">
+                    <h3>Encrypt a Message</h3>
+                    <div class="input-group">
+                        <label for="enc-plaintext">Plaintext</label>
+                        <textarea id="enc-plaintext" rows="3" placeholder="Enter plaintext message…"></textarea>
+                        <div class="input-hint">Alphabetic characters will be encrypted; spaces, punctuation, and numbers pass through unchanged.</div>
+                    </div>
+                    <div class="input-group">
+                        <label for="enc-key">Keyword</label>
+                        <input type="text" id="enc-key" placeholder="Enter keyword (e.g., LEMON)">
+                        <div class="input-hint">Only letters are used. Non-letter characters in the key are ignored.</div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="handleEncrypt()" id="btn-encrypt">🔒 Encrypt</button>
+                        <button class="btn btn-secondary" onclick="loadEncExample()">📝 Load Example</button>
+                        <button class="btn btn-secondary" onclick="clearEncrypt()">✕ Clear</button>
+                    </div>
+                    <span id="enc-easter"></span>
+
+                    <div id="enc-result"></div>
+                    <div id="enc-keystream"></div>
+                    <div id="enc-steps"></div>
+                </div>
+            </section>
+
+            <!-- ============ 6. DECRYPTION ============ -->
+            <section class="lab-section" id="section-decrypt">
+                <h2 class="section-title"><span class="section-icon">🔓</span> Interactive Decryption</h2>
+
+                <div class="card">
+                    <h3>Decrypt a Message</h3>
+                    <div class="input-group">
+                        <label for="dec-ciphertext">Ciphertext</label>
+                        <textarea id="dec-ciphertext" rows="3" placeholder="Enter ciphertext message…"></textarea>
+                        <div class="input-hint">Enter the encrypted text to decrypt.</div>
+                    </div>
+                    <div class="input-group">
+                        <label for="dec-key">Keyword</label>
+                        <input type="text" id="dec-key" placeholder="Enter keyword (e.g., LEMON)">
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="handleDecrypt()" id="btn-decrypt">🔓 Decrypt</button>
+                        <button class="btn btn-secondary" onclick="loadDecExample()">📝 Load Example</button>
+                        <button class="btn btn-secondary" onclick="clearDecrypt()">✕ Clear</button>
+                    </div>
+
+                    <div id="dec-result"></div>
+                    <div id="dec-keystream"></div>
+                    <div id="dec-steps"></div>
+                </div>
+            </section>
+
+            <!-- ============ 7. STEP-BY-STEP SIMULATION ============ -->
+            <section class="lab-section" id="section-simulation">
+                <h2 class="section-title"><span class="section-icon">▶️</span> Step-by-Step Simulation</h2>
+
+                <div class="card">
+                    <h3>Interactive Simulation</h3>
+                    <p>Step through the encryption or decryption process one character at a time. Watch the tabula recta highlight as each letter is processed.</p>
+
+                    <div class="input-group">
+                        <label for="sim-plaintext">Input Text</label>
+                        <input type="text" id="sim-plaintext" placeholder="Enter text (e.g., ATTACK AT DAWN)">
+                    </div>
+                    <div class="input-group">
+                        <label for="sim-key">Keyword</label>
+                        <input type="text" id="sim-key" placeholder="Enter keyword (e.g., LEMON)">
+                    </div>
+                    <div class="input-group">
+                        <label>Mode</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="sim-mode" value="encrypt" checked> Encrypt</label>
+                            <label><input type="radio" name="sim-mode" value="decrypt"> Decrypt</label>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="startSimulation()">▶ Start</button>
+                        <button class="btn btn-success" onclick="advanceSimulation()" id="sim-next-btn">⏭ Next Step</button>
+                        <button class="btn btn-secondary" onclick="autoRunSimulation()">⏩ Auto-Run</button>
+                        <button class="btn btn-secondary" onclick="loadSimExample()">📝 Load Example</button>
+                        <button class="btn btn-secondary" onclick="resetSimulation()">↻ Reset</button>
+                    </div>
+
+                    <div id="sim-output" class="muted" style="margin-top:16px;">
+                        <p>Click "Start" to begin the step-by-step simulation.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Tabula Recta — Live Highlight</h3>
+                    <p class="muted">The tabula recta below highlights the current plaintext column and key row as you step through the simulation.</p>
+                    <div class="tabula-recta-wrapper" id="tabula-recta">
+                        <!-- Built by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ 8. CRYPTANALYSIS ============ -->
+            <section class="lab-section" id="section-cryptanalysis">
+                <h2 class="section-title"><span class="section-icon">📊</span> Cryptanalysis — Frequency Analysis</h2>
+
+                <div class="card">
+                    <h3>About Frequency Analysis</h3>
+                    <p>
+                        <strong>Frequency analysis</strong> counts how often each letter (A–Z) appears in a text and calculates its percentage of all alphabetic characters. In English, certain letters (E, T, A, O, I, N, S, H, R) appear far more frequently than others.
+                    </p>
+                    <p>
+                        A monoalphabetic cipher like Caesar preserves this distribution — the ciphertext histogram is simply a shifted copy of the plaintext histogram. This makes it trivially breakable.
+                    </p>
+                    <p>
+                        The Vigenère cipher uses <em>multiple shifts</em> (one per key letter), so the same plaintext letter can map to different ciphertext letters. This <strong>flattens</strong> the ciphertext frequency distribution, making single-letter frequency analysis less effective. However, because the key <strong>repeats</strong>, structural patterns remain — methods such as <em>Kasiski examination</em> and the <em>index of coincidence</em> can exploit this repetition.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Run Frequency Analysis</h3>
+                    <div class="input-group">
+                        <label for="ca-plaintext">Plaintext</label>
+                        <textarea id="ca-plaintext" rows="3" placeholder="Enter plaintext (e.g., ATTACKATDAWN)"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="ca-key">Keyword</label>
+                        <input type="text" id="ca-key" placeholder="Enter keyword (e.g., LEMON)">
+                        <div class="input-hint">Try changing the key and re-running to observe how the ciphertext distribution changes.</div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="handleCryptanalysis()" id="btn-cryptanalysis">📊 Analyse</button>
+                        <button class="btn btn-secondary" onclick="loadCaExample()">📝 Load Example</button>
+                        <button class="btn btn-secondary" onclick="clearCryptanalysis()">✕ Clear</button>
+                    </div>
+
+                    <div id="ca-result"></div>
+                </div>
+
+                <div class="card">
+                    <h3>Frequency Charts</h3>
+                    <div class="chart-container">
+                        <canvas id="chart-pt"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-ct"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-compare"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Frequency Data Table</h3>
+                    <div id="ca-freq-table" class="muted">Run the analysis above to see the frequency data.</div>
+                </div>
+
+                <div id="ca-observation"></div>
+            </section>
+
+            <!-- ============ 9. PROCEDURE ============ -->
+            <section class="lab-section" id="section-procedure">
+                <h2 class="section-title"><span class="section-icon">📋</span> Procedure</h2>
+
+                <div class="card">
+                    <h3>Step-by-Step Procedure</h3>
+                    <ol class="procedure-steps">
+                        <li>Read the <strong>Theory</strong> section to understand the Vigenère cipher, its history, and the mathematical formulation.</li>
+                        <li>Navigate to the <strong>Encryption</strong> section. Enter a plaintext message and a keyword. Click <em>Encrypt</em>.</li>
+                        <li>Observe the <strong>ciphertext</strong>, the <strong>key stream alignment</strong>, and the <strong>step-by-step trace table</strong> showing each character's calculation.</li>
+                        <li>Navigate to the <strong>Decryption</strong> section. Enter the ciphertext from step 3 and the same keyword. Click <em>Decrypt</em>. Verify that the original plaintext is recovered.</li>
+                        <li>Use the <strong>Step-by-Step Simulation</strong> to walk through the process one character at a time, watching the tabula recta highlight each lookup.</li>
+                        <li>Navigate to the <strong>Cryptanalysis</strong> section. Enter the same plaintext and keyword, then click <em>Analyse</em>.</li>
+                        <li>Examine the three frequency charts:
+                            <ul>
+                                <li>Plaintext letter frequency</li>
+                                <li>Ciphertext letter frequency</li>
+                                <li>Comparison chart showing both distributions</li>
+                            </ul>
+                        </li>
+                        <li>Observe that the ciphertext distribution is more uniform than the plaintext distribution, demonstrating resistance to simple frequency analysis.</li>
+                        <li>Try <strong>changing the keyword</strong> (e.g., from "LEMON" to "A" or to "VERYLONGKEY") and re-running the analysis. Observe how key length affects the ciphertext distribution.</li>
+                        <li>Complete the <strong>Quiz</strong> to test your understanding.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- ============ 10. EXAMPLES ============ -->
+            <section class="lab-section" id="section-examples">
+                <h2 class="section-title"><span class="section-icon">💡</span> Worked Examples</h2>
+
+                <div class="card">
+                    <h3>Example 1: Standard Encryption</h3>
+                    <p><strong>Plaintext:</strong> <code>ATTACK AT DAWN</code></p>
+                    <p><strong>Key:</strong> <code>LEMON</code></p>
+                    <p><strong>Expected Ciphertext:</strong> <code>LXFOPV EF RNHR</code></p>
+
+                    <h4>Step-by-step trace:</h4>
+                    <table class="step-table">
+                        <thead><tr><th>Index</th><th>Plain</th><th>P(val)</th><th>Key</th><th>K(val)</th><th>Calculation</th><th>Cipher</th></tr></thead>
+                        <tbody>
+                            <tr><td>0</td><td class="char-cell">A</td><td>0</td><td class="char-cell">L</td><td>11</td><td class="calc-cell">(0 + 11) mod 26 = 11</td><td class="char-cell result-cell">L</td></tr>
+                            <tr><td>1</td><td class="char-cell">T</td><td>19</td><td class="char-cell">E</td><td>4</td><td class="calc-cell">(19 + 4) mod 26 = 23</td><td class="char-cell result-cell">X</td></tr>
+                            <tr><td>2</td><td class="char-cell">T</td><td>19</td><td class="char-cell">M</td><td>12</td><td class="calc-cell">(19 + 12) mod 26 = 5</td><td class="char-cell result-cell">F</td></tr>
+                            <tr><td>3</td><td class="char-cell">A</td><td>0</td><td class="char-cell">O</td><td>14</td><td class="calc-cell">(0 + 14) mod 26 = 14</td><td class="char-cell result-cell">O</td></tr>
+                            <tr><td>4</td><td class="char-cell">C</td><td>2</td><td class="char-cell">N</td><td>13</td><td class="calc-cell">(2 + 13) mod 26 = 15</td><td class="char-cell result-cell">P</td></tr>
+                            <tr><td>5</td><td class="char-cell">K</td><td>10</td><td class="char-cell">L</td><td>11</td><td class="calc-cell">(10 + 11) mod 26 = 21</td><td class="char-cell result-cell">V</td></tr>
+                            <tr><td>6</td><td class="char-cell">A</td><td>0</td><td class="char-cell">E</td><td>4</td><td class="calc-cell">(0 + 4) mod 26 = 4</td><td class="char-cell result-cell">E</td></tr>
+                            <tr><td>7</td><td class="char-cell">T</td><td>19</td><td class="char-cell">M</td><td>12</td><td class="calc-cell">(19 + 12) mod 26 = 5</td><td class="char-cell result-cell">F</td></tr>
+                            <tr><td>8</td><td class="char-cell">D</td><td>3</td><td class="char-cell">O</td><td>14</td><td class="calc-cell">(3 + 14) mod 26 = 17</td><td class="char-cell result-cell">R</td></tr>
+                            <tr><td>9</td><td class="char-cell">A</td><td>0</td><td class="char-cell">N</td><td>13</td><td class="calc-cell">(0 + 13) mod 26 = 13</td><td class="char-cell result-cell">N</td></tr>
+                            <tr><td>10</td><td class="char-cell">W</td><td>22</td><td class="char-cell">L</td><td>11</td><td class="calc-cell">(22 + 11) mod 26 = 7</td><td class="char-cell result-cell">H</td></tr>
+                            <tr><td>11</td><td class="char-cell">N</td><td>13</td><td class="char-cell">E</td><td>4</td><td class="calc-cell">(13 + 4) mod 26 = 17</td><td class="char-cell result-cell">R</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Example 2: Decryption with Negative Values</h3>
+                    <p><strong>Ciphertext:</strong> <code>LXFOPV EF RNHR</code></p>
+                    <p><strong>Key:</strong> <code>LEMON</code></p>
+                    <p><strong>Expected Plaintext:</strong> <code>ATTACK AT DAWN</code></p>
+
+                    <h4>Key decryption step demonstrating negative handling:</h4>
+                    <table class="step-table" style="max-width:680px;">
+                        <thead><tr><th>Cipher</th><th>C(val)</th><th>Key</th><th>K(val)</th><th>Calculation</th><th>Plain</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td class="char-cell">F</td><td>5</td>
+                                <td class="char-cell">M</td><td>12</td>
+                                <td class="calc-cell">(5 − 12) = −7 → (−7 + 26) mod 26 = 19</td>
+                                <td class="char-cell result-cell">T</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="muted">When C − K is negative, adding 26 before taking mod 26 ensures a valid letter value (0–25).</p>
+                </div>
+
+                <div class="card">
+                    <h3>Example 3: Key = "A" (Caesar shift 0)</h3>
+                    <p><strong>Plaintext:</strong> <code>HELLO</code>&emsp;<strong>Key:</strong> <code>A</code></p>
+                    <p><strong>Expected Ciphertext:</strong> <code>HELLO</code></p>
+                    <p class="muted">Key letter A has value 0, so every character is shifted by 0 — the text is unchanged.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Example 4: Key Longer than Plaintext</h3>
+                    <p><strong>Plaintext:</strong> <code>CRYPTOGRAPHY</code>&emsp;<strong>Key:</strong> <code>VERYLONGKEYWHICHISLONGERTHANPLAINTEXT</code></p>
+                    <p><strong>Expected Ciphertext:</strong> <code>XVPNECTXKTFU</code></p>
+                    <p class="muted">Only the first 12 key letters are consumed (one per alphabetic plaintext character).</p>
+                </div>
+            </section>
+
+            <!-- ============ 11. QUIZ ============ -->
+            <section class="lab-section" id="section-quiz">
+                <h2 class="section-title"><span class="section-icon">✏️</span> Quiz / Assessment</h2>
+
+                <div class="card">
+                    <h3>Test Your Knowledge</h3>
+                    <p>Answer all 10 questions. Select one option per question. Feedback is provided immediately after each answer.</p>
+                    <div id="quiz-score"></div>
+                </div>
+
+                <div id="quiz-questions">
+                    <!-- Built by JavaScript -->
+                </div>
+
+                <div class="card" style="text-align:center; margin-top: 10px;">
+                    <button class="btn btn-primary" onclick="resetQuiz()">↻ Reset Quiz</button>
+                </div>
+            </section>
+
+            <!-- ============ 12. TEST RESULTS ============ -->
+            <section class="lab-section" id="section-tests">
+                <h2 class="section-title"><span class="section-icon">🧪</span> Automated Test Results</h2>
+
+                <div class="card">
+                    <h3>Test Suite</h3>
+                    <p>These tests run automatically when the page loads, verifying encryption, decryption, edge cases, inverse-property checks, and frequency analysis against the supplied test vectors.</p>
+                    <div class="btn-group" style="margin-bottom:16px;">
+                        <button class="btn btn-primary" onclick="runTests()">▶ Re-run Tests</button>
+                    </div>
+                    <div id="test-results" class="muted">Running tests…</div>
+                </div>
+            </section>
+
+            <!-- ============ 13. REFERENCES ============ -->
+            <section class="lab-section" id="section-references">
+                <h2 class="section-title"><span class="section-icon">📚</span> References</h2>
+
+                <div class="card">
+                    <ol class="ref-list">
+                        <li>Katz, J. and Lindell, Y. (2020). <em>Introduction to Modern Cryptography</em>, 3rd ed. CRC Press.</li>
+                        <li>Singh, S. (1999). <em>The Code Book: The Science of Secrecy from Ancient Egypt to Quantum Cryptography</em>. Anchor Books.</li>
+                        <li>Stallings, W. (2017). <em>Cryptography and Network Security: Principles and Practice</em>, 7th ed. Pearson.</li>
+                        <li>Kasiski, F. W. (1863). <em>Die Geheimschriften und die Dechiffrir-Kunst</em>. E. S. Mittler und Sohn, Berlin.</li>
+                        <li>Bellaso, G. B. (1553). <em>La cifra del. Sig. Giovan Battista Bellaso</em>.</li>
+                        <li>Friedman, W. F. (1920). "The Index of Coincidence and Its Applications in Cryptanalysis." <em>Riverbank Publication No. 22</em>.</li>
+                        <li>Wikipedia contributors. "Vigenère cipher." <em>Wikipedia, The Free Encyclopedia</em>. Available at: <a href="https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Vigenère_cipher</a>.</li>
+                    </ol>
+                </div>
+            </section>
+
+        </div><!-- .lab-content -->
+    </main>
+
+</div><!-- .lab-wrapper -->
+
+<!-- Easter egg: Kasiski toast -->
+<div id="easter-kasiski">
+    🔍 <em>"The key repeats. And wherever it repeats, patterns emerge."</em><br>
+    <small>— Friedrich Kasiski, 1863</small>
+</div>
+
+<script src="script.js"></script>
+
+<script>
+    // Mobile sidebar toggle
+    const sidebar = document.getElementById('sidebar');
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    menuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('show');
+    });
+
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+    });
+
+    // Close sidebar on nav click (mobile)
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('show');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
